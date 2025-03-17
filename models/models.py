@@ -8,16 +8,17 @@ bcrypt = Bcrypt()
 class House(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), unique = True, nullable = False)
-    seat = db.Column(db.String(100), unique = True, nullable = False)
+    seat = db.relationship("Seat", uselist = False, back_populates = "house")
     lands = db.Column(db.String(100), unique = True, nullable = False)
-
+    emblem = db.Column(db.String(255))
+    users = db.relationship("User", backref = "house", lazy = True)
 
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
+    username = db.Column(db.String(80), unique = True, nullable = False)
+    email = db.Column(db.String(120), unique = True, nullable = False)
+    password_hash = db.Column(db.String(128), nullable = False)
     house_id = db.Column(db.Integer, db.ForeignKey('house.id'))
 
     def set_password(self, password):
@@ -26,3 +27,9 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
     
+class Seat(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(100), unique = True, nullable = False)
+    location = db.Column(db.String(255, nullable = False))
+    house_id = db.Column(db.Integer, db.ForeignKey('house_id'), unique = True, nullable = False)
+    house = db.relationship("House", back_populates = "seat")

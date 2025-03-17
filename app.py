@@ -1,5 +1,5 @@
 from flask import Flask
-from models import db
+from models import db, House, Seat
 from flask_login import LoginManager
 
 app = Flask(__name__)
