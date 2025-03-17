@@ -19,8 +19,11 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
     username = db.Column(db.String(80), unique = True, nullable = False)
     email = db.Column(db.String(120), unique = True, nullable = False)
-    password_hash = db.Column(db.String(128), nullable = False)
-    house_id = db.Column(db.Integer, db.ForeignKey('house.id'))
+    password_hash = db.Column(db.String(256), nullable = False)
+    avatar = db.Column(db.String(255), nullable = False, default = "default_avatar.png")
+    status = db.Column(db.String(255), nullable = True)
+    house_id = db.Column(db.Integer, db.ForeignKey('house.id'), nullable = True)
+    house = db.relationship('House', backref = db.backref('members', lazy = True))
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8') # Password hash encryption
