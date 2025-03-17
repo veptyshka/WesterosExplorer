@@ -1,18 +1,68 @@
-from flask import Flask
-from models import db, House, Seat
-from flask_login import LoginManager
+from flask import Flask, render_template, redirect, url_for, flash
+from models import db, House, Seat, User
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+from forms import RegistrationForm, LoginForm
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///westeros.db'
 app.config['SECRET_KEY'] = ''
 
 db.init_app(app)
+
+# Flask login setup
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'login'
+login_manager.login_message_category = 'info'
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+# Registration route
+@app.route("/register", methods = ["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username = form.username.data, email = form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Account was succesfully created! You can login now', 'success')
+        return redirect(url_for('login'))
+    
+    return render_template('register.html', form = form)
+
+# Login route
+@app.route("/login", methods = ["GET", "POST"])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    
+    form = LoginForm()
+    if form.validete_on_submit():
+        user = User.query.filter_by(email = form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user)
+            flash('Welcome back!', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Login error. Please check your email and apssword', 'danger')
+
+    return render_template('login.html', form = form)
+
+# Logout route
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have logged out', 'info')
+    return redirect(url_for('home'))
+
 
 if __name__ == '__main__':
     with app.app_context():
