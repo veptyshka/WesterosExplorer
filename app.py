@@ -18,3 +18,17 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug = True)
+
+with app.app_context():
+    if House.query.count() == 0: # Check if there are houses in the database
+        # adding houses
+        stark = House(name = "Stark", lands = "The North", description = "Winter is coming", emblem = "House_Stark.png")
+        
+        db.session.add(stark)
+        db.session.commit()
+
+        # adding seats
+        winterfell = Seat(name = "Winterfell", location = "", house_id = stark.id)
+
+        db.session.add(winterfell)
+        db.session.commit()
