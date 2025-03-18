@@ -8,6 +8,7 @@ def house_page(house_name):
 
     # Checking for house in database
     house = House.query.filter_by(name = house_name).first()
+    members = house.members
 
     if not house:
         abort(404) # No house found
