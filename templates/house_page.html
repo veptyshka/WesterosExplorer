@@ -5,6 +5,10 @@
     <h1>{{ house.name }}</h1>
     <img src="{{ url_for('static', filename='images/' + house.emblem) }}" alt="{{ house.name }}" class="img-fluid">
 
+    <h3>Words</h3>
+    <p><strong>{{ house.words }}</strong></p>
 
+    <h3>Ancestral castle</h3>
+    <p>{{ house.seat.name }}</p>
 </div>
 {% endblock %}
