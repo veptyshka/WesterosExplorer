@@ -29,6 +29,18 @@
                 <input type="file" name="avatar" class="form-control">
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Choose a house:</label>
+                <select name="house_id" class="form-select">
+                    <option value="">Not chosen</option>
+                    {% for house in houses %}
+                        <option value="{{ house_id }}" {% if user.house and user.house_id == house.id %}selected{% endif %}>
+                            {{ house.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
             <button type="submit" class="btn btn-success">Save changes</button>
         </form>
     {% endif %}

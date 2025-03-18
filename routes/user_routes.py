@@ -18,6 +18,7 @@ def user_profile(username):
     user = User.query.filter_by(username = username).first_or_404()
 
     if request.method == "POST":
+        # Change avatar
         if "avatar" in request.files:
             file = request.files["avatar"]
             if file and allowed_file(file.filename):
@@ -28,6 +29,7 @@ def user_profile(username):
                 db.session.commit()
                 flash("Avatar was successfully updated!", "success")
 
+        # Change username
         if "username" in request.form:
             new_name = request.form["username"]
             if new_name and new_name != user.username:
@@ -36,11 +38,24 @@ def user_profile(username):
                 flash("Your name was successfully updated!", "success")
 
 
+        # Change status
         if "status" in request.form:
             new_status = request.form["status"]
             user.status = new_status
             db.session.commit()
             flash("Status updated!", "success")
+
+        # Choose a house
+        if "house_id" in request.form:
+            house_id = request.form["house_id"]
+            if house_id:
+                user.house_id = int(house_id)
+                house = House.query.get(int(house_id))
+                flash(f"You've chosen the {house.name} house!", "success")
+            else:
+                user.house_id = None
+                flash("You're being neutral.", "warning")
+            db.session.commit()
 
         return redirect(url_for("user.user_profile", username = user.username))
     
