@@ -5,6 +5,7 @@ from models import db, House, Seat, User
 from routes.auth_routes import auth
 from routes.main_routes import main
 from routes.house_routes import house_bp
+from routes.user_routes import user_bp
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///westeros.db'
@@ -26,6 +27,7 @@ def load_user(user_id):
 app.register_blueprint(auth, url_prefix = "/auth")
 app.register_blueprint(main, url_prefix = "/")
 app.register_blueprint(house_bp)
+app.register_blueprint(user_bp)
 
 
 if __name__ == '__main__':

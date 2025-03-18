@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>User profile: {{ user.username }}</h1>
+
+    <img src="{{ url_for('static', filename='avatars/' + user.avatar) }}"
+         alt="Avatar" class="img-thumbnail" width="150">
+
+    <h3>House: {% if user.house %} {{user.house.name }} {% else %} Neutral {% endif %}</h3>
+    
+    <h3>Status:</h3>
+    <p>{{ user.status if user.status else "No status" }}</p>
+
+    {% if user.id == current_user.id %}
+        <form method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">Change username:</label>
+                <input type="text" name="username" value="{{ user.username }}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Change status:</label>
+                <input type="text" name="status" value="{{ user.status }}" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Upload new avatar:</label>
+                <input type="file" name="avatar" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-success">Save changes</button>
+        </form>
+    {% endif %}
+</div>
+{% endblock %}
