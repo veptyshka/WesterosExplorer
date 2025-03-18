@@ -60,3 +60,9 @@ def user_profile(username):
         return redirect(url_for("user.user_profile", username = user.username))
     
     return render_template("user_profile.html", user = user)
+
+
+@user_bp.route("/users")
+def all_users():
+    users = User.query.all() # Getting users from database
+    return render_template("users.html", users = users)

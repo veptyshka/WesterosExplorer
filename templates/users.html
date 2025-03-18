@@ -1,0 +1,30 @@
+{% estends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>Users list</h1>
+
+    {% if users %}
+        <ul class="list-group">
+            {% for user in users %}
+                <li class="list-group-item d-flex align-items-center">
+                    <img src="{{ url_for('static', filename='avatars/' + user.avatar) }}"
+                        alt="Avatar" width="40", height="40" class="rounded-circle me-3">
+
+                    <a href="{{ url_for('user.user_profile', username = user.username)}}" class="me-3">
+                        {{ user.username }}
+                    </a>
+
+                    {% if user.house %}
+                        <span class="badge bg-primary">{{ user.house.name }}</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Neutral</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There's no users yet</p>
+    {% endif %}
+</div>
+{% endblock %}
