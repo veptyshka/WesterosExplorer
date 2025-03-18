@@ -1,9 +1,9 @@
 from flask import Blueprint, render_template, abort
-from models import House
+from models.models import House
 
 house_bp = Blueprint('house', __name__)
 
-@house_bp.route("house/<house_name>")
+@house_bp.route("/house/<house_name>")
 def house_page(house_name):
 
     # Checking for house in database

@@ -1,5 +1,5 @@
 from flask_login import UserMixin
-from models import db
+from models.__init__ import db
 from models import bcrypt
 
 class House(db.Model):
@@ -31,6 +31,6 @@ class User(db.Model, UserMixin):
 class Seat(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(100), unique = True, nullable = False)
-    location = db.Column(db.String(255, nullable = False)) # Castle location on the map
+    location = db.Column(db.String(255), nullable = False) # Castle location on the map
     house_id = db.Column(db.Integer, db.ForeignKey('house_id'), unique = True, nullable = False)
     house = db.relationship("House", back_populates = "seat") # House that castle belongs to

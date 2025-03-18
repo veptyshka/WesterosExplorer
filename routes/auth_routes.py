@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
-from models import db, User
-from forms import RegistrationForm, LoginForm
+from models import db
+from models.models import User
+from forms.forms import RegistrationForm, LoginForm
 
 auth = Blueprint('auth', __name__)
 
@@ -30,7 +31,7 @@ def login():
         return redirect(url_for('main.home'))
     
     form = LoginForm()
-    if form.validete_on_submit():
+    if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)

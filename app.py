@@ -9,8 +9,8 @@ from routes.house_routes import house_bp
 from routes.user_routes import user_bp
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///westeros.db'
-app.config['SECRET_KEY'] = ''
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///westeros.db'
+app.config['SECRET_KEY'] = 'rya'
 
 db.init_app(app)
 
@@ -48,7 +48,7 @@ with app.app_context():
             {"name": "Arryn", "lands": "Vale of Arryn", "words": "As High as Honot", "emblem": "House_Arryn.png", "seat": {"name": "Eyrie", "location": "x, y"}},
             {"name": "Tyrell", "lands": "Reach", "words": "Growing Strong", "emblem": "House_Tyrell.png", "seat": {"name": "Highgarden", "location": "x, y"}},
             {"name": "Martell", "lands": "Dorne", "words": "Unbowed, Unbent, Unbroken", "emblem": "House_Martell.png", "seat": {"name": "Sunspear", "location": "x, y"}},
-            {"name": "Night's Watch", "lands": "The Wall", "words": "", "emblem": "Night's_Watch.png", "seat": {"name": "Castle Black", "location": "x, y"}},
+            {"name": "Night's Watch", "lands": "The Wall", "words": "Sword in the darkness", "emblem": "Night's_Watch.png", "seat": {"name": "Castle Black", "location": "x, y"}},
         ]
 
         for house_data in houses_data:

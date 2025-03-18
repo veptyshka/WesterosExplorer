@@ -1,4 +1,4 @@
-{% estends "base.html" %}
+{% extends "base.html" %}
 
 {% block content %}
 <div class="container text-center">
@@ -10,8 +10,8 @@
         <a href="{{ url_for('main.map') }}" class="btn btn-primary">Explore the map!</a>
         <a href="{{ url_for('auth.logout') }}" class="btn btn-danger">Logout</a>
     {% else %}
-        <a href="{{ url_for(auth.login) }}" class="btn btn-success">Login</a>
-        <a href="{{ url_for(auth.register) }}" class="btn btn-warning">Register now!</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-success">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-warning">Register now!</a>
     {% endif %}
 </div>
 {% endblock %}

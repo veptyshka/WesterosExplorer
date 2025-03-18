@@ -2,7 +2,8 @@ import os
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from werkzeug.utils import secure_filename
-from models import db, User, House
+from models.__init__ import db
+from models.models import User, House
 
 user_bp = Blueprint('user', __name__)
 
