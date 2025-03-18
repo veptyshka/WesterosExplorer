@@ -10,7 +10,7 @@ class House(db.Model):
     name = db.Column(db.String(100), unique = True, nullable = False) # House name
     seat = db.relationship("Seat", uselist = False, back_populates = "house") # House seat - family castle
     lands = db.Column(db.String(100), unique = True, nullable = False) # House lands
-    description = db.Column(db.Text, nullable = False)
+    words = db.Column(db.Text, nullable = False)
     emblem = db.Column(db.String(255)) # Coat of Arms
     users = db.relationship("User", backref = "house", lazy = True) # Users joined the house
 
