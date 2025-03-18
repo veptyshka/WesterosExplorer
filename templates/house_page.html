@@ -10,5 +10,23 @@
 
     <h3>Ancestral castle</h3>
     <p>{{ house.seat.name }}</p>
+
+    <h3>House members</h3>
+    {% if members %}
+        <ul>
+            {% for user in members %}
+                <li>
+                    <img src="{{ url_for('static', filename='avatars/' + user.avatar) }}"
+                         alt="Avatar" width="30" height="30" style="border-radius: 50%;">
+                    <a href="{{ url_for('user.user_profile', username = user.username) }}">
+                        {{ user.username }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>There's no members in this house yet</p>
+    {% endif %}
+
 </div>
 {% endblock %}
