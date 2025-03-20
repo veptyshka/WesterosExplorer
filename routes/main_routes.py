@@ -14,3 +14,8 @@ def home():
 @login_required # Only for registered users
 def map():
     return render_template("map.html")
+
+# Credits
+@main.route("/credits")
+def credits():
+    return render_template("credits.html")
