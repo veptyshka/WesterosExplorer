@@ -1,6 +1,12 @@
 from flask_login import UserMixin
 from models.__init__ import db
 from models import bcrypt
+from enum import Enum
+
+class UserRole(Enum):
+    ADMIN = "admin"
+    HOUSE_LEADER = "house_leader"
+    MEMBER = "member"
 
 class House(db.Model):
     id = db.Column(db.Integer, primary_key = True) # House id
@@ -19,8 +25,12 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(256), nullable = False)
     avatar = db.Column(db.String(255), nullable = False, default = "default_avatar.png")
     status = db.Column(db.String(255), nullable = True)
+    role = db.Column(db.Enum(UserRole), default = UserRole.MEMBER, nullable = False)
     house_id = db.Column(db.Integer, db.ForeignKey('house.id'), nullable = True)
     house = db.relationship('House', backref = db.backref('members', lazy = True))
+
+    def __repr__(self):
+        return f"<User {self.username} ({self.role.value})>"
 
     def set_password(self, password):
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8') # Password hash encryption
