@@ -1,6 +1,6 @@
 from flask import Blueprint, session, render_template, redirect, url_for, flash
 from functools import wraps
-from models import db
+from models.__init__ import db
 from models.models import UserRole, User, House
 
 admin = Blueprint('admin', __name__)
@@ -29,7 +29,7 @@ def admin_dashboard():
     users = User.query.all()
     houses = House.query.all()
     return render_template("admin_dashboard.html", users = users, houses = houses)
-    # flash("Welcome back, Three-eyed crow!")
+    # flash("Welcome back, Three-eyed raven!")
 
 # Set house leader
 @admin.route("/set_leader/<int:user_id>/<int:house_id>")

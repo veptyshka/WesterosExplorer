@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from models import db, bcrypt
-from models.models import House, Seat, User
+from models.__init__ import db, bcrypt
+from models.models import House, Seat, User, create_admin
 from routes.auth_routes import auth
 from routes.main_routes import main
 from routes.house_routes import house_bp
@@ -36,6 +36,7 @@ app.register_blueprint(admin)
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+        create_admin()
     app.run(debug = True)
 
 with app.app_context():

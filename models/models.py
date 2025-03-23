@@ -1,6 +1,5 @@
 from flask_login import UserMixin
-from models.__init__ import db
-from models import bcrypt
+from models.__init__ import db, bcrypt
 from enum import Enum
 
 class UserRole(Enum):
@@ -44,3 +43,20 @@ class Seat(db.Model):
     location = db.Column(db.String(255), nullable = False) # Castle location on the map
     house_id = db.Column(db.Integer, db.ForeignKey('house_id'), unique = True, nullable = False)
     house = db.relationship("House", back_populates = "seat") # House that castle belongs to
+
+# Admin creation
+def create_admin():
+    admin = User.query.filter_by(username = "Three-eyed Raven").first()
+    if not admin:
+        hashed_password = bcrypt.generate_password_hash("")
+        admin = User(
+            username = "Three-eyed Raven",
+            email = "raven@westeros.ws",
+            password_hash = hashed_password,
+            role = UserRole.ADMIN
+        )
+        db.session.add(admin)
+        db.session.commit()
+        print("Admin user 'Three-eyed Raven' created")
+    else:
+        print("Admin already exists")
