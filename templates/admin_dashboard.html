@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Heart tree{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Admin dashboard</h2>
+
+    <h3>Users</h3>
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Role</th>
+                <th>House</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role.value.replace('_', ' ').title() }}</td>
+                <td>{{ user.huse.name if user.house else "None" }}</td>
+                <td>
+                    {% if user.role != "admin" %}
+                        <a href="{{ url_for('admin.delete_user', user_id=user.id) }}" class="btn btn-danger btn-sm">Delete</a>
+                        {% for house in houses %}
+                            <a href="{{ url_for('admin.set_leader', user_id=user.id, house_id=house.id) }}" class="btn btn-primary btn-sm">Make leader of house {{ house.name }}</a>
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
