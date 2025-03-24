@@ -21,6 +21,18 @@ a:hover {
     color: #d35400;
 }
 
+.form-container {
+    max-width: 400px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
 .btn {
     padding: 10px 20px;
     border-radius: 5px;
