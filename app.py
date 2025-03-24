@@ -11,9 +11,11 @@ from utils import create_admin
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///westeros.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'rya'
 
 db.init_app(app)
+bcrypt.init_app(app)
 
 # Flask login setup
 login_manager = LoginManager()
@@ -37,7 +39,7 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
         db.session.remove()
-        # create_admin()
+        create_admin()
     app.run(debug = True)
 
 with app.app_context():
