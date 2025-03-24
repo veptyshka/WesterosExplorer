@@ -15,7 +15,7 @@ class House(db.Model):
     lands = db.Column(db.String(100), unique = True, nullable = False) # House lands
     words = db.Column(db.Text, nullable = False)
     emblem = db.Column(db.String(255)) # Coat of Arms
-    users = db.relationship("User", backref = "house", lazy = True) # Users joined the house
+    users = db.relationship("User", back_populates="house") # Users joined the house
 
 
 class User(db.Model, UserMixin):
@@ -28,7 +28,7 @@ class User(db.Model, UserMixin):
     status = db.Column(db.String(255), nullable = True)
     role = db.Column(db.Enum(UserRole), default = UserRole.MEMBER, nullable = False)
     house_id = db.Column(db.Integer, db.ForeignKey('houses.id'), nullable = True)
-    house = db.relationship('House')
+    house = db.relationship('House', back_populates="users")
 
     def __repr__(self):
         return f"<User {self.username} ({self.role.value})>"
@@ -45,4 +45,4 @@ class Seat(db.Model):
     name = db.Column(db.String(100), unique = True, nullable = False)
     location = db.Column(db.String(255), nullable = False) # Castle location on the map
     house_id = db.Column(db.Integer, db.ForeignKey('houses.id'), unique = True, nullable = False)
-    house = db.relationship("houses", back_populates = "seat") # House that castle belongs to
+    house = db.relationship("House", back_populates = "seat") # House that castle belongs to

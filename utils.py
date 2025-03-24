@@ -1,5 +1,5 @@
 from models import db, bcrypt
-from models.models import User, UserRole
+from models.models import User, UserRole, House
 
 # Admin creation
 def create_admin():
