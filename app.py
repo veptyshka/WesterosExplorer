@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_login import LoginManager
-from models.__init__ import db, bcrypt
+from models import db, bcrypt
 from models.models import House, Seat, User
 from routes.auth_routes import auth
 from routes.main_routes import main
