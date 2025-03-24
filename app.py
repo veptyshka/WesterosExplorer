@@ -1,13 +1,13 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from models.__init__ import db, bcrypt
-from models.models import House, Seat, User, create_admin
+from models.models import House, Seat, User
 from routes.auth_routes import auth
 from routes.main_routes import main
 from routes.house_routes import house_bp
 from routes.user_routes import user_bp
 from routes.admin_routes import admin
+from utils import create_admin
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///westeros.db'
