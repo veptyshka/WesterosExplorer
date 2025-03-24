@@ -34,7 +34,7 @@
                 <select name="house_id" class="form-select">
                     <option value="">Not chosen</option>
                     {% for house in houses %}
-                        <option value="{{ house_id }}" {% if user.house and user.house_id == house.id %}selected{% endif %}>
+                        <option value="{{ house.id }}" {% if user.house and user.house_id == house.id %}selected{% endif %}>
                             {{ house.name }}
                         </option>
                     {% endfor %}
