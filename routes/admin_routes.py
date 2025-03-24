@@ -1,6 +1,6 @@
 from flask import Blueprint, session, render_template, redirect, url_for, flash
 from functools import wraps
-from models.__init__ import db
+from models import db
 from models.models import UserRole, User, House
 
 admin = Blueprint('admin', __name__)
