@@ -43,7 +43,13 @@ if __name__ == '__main__':
     app.run(debug = True)
 
 with app.app_context():
-    if House.query.count() == 0: # Check if there are houses in the database
+    # Check if there are houses in the database
+    houses_exist = House.query.count() > 0
+    seats_exist = Seat.query.count() > 0
+
+    if not houses_exist or not seats_exist:
+        print('Adding houses and castles...')
+
         houses_data = [
             {"name": "Stark", "lands": "The North", "words": "Winter is Coming", "emblem": "House_Stark.png", "seat": {"name": "Winterfell", "location": "x, y"}},
             {"name": "Lannister", "lands": "The West", "words": "Hear me Roar!", "emblem": "House_Lannister.png", "seat": {"name": "Casterly Rock", "location": "x, y"}},
@@ -58,18 +64,26 @@ with app.app_context():
         ]
 
         for house_data in houses_data:
-            house = House(
-                name = house_data["name"],
-                lands = house_data["lands"],
-                words = house_data["words"],
-                emblem = house_data["emblem"],
-            )
-            db.session.add(house)
-            db.session.flush() # to get house id before adding it's seat
+            # Checking for a house
+            house = House.query.filter_by(name = house_data["name"]).first()
+            if not house:
+                house = House(
+                    name = house_data["name"],
+                    lands = house_data["lands"],
+                    words = house_data["words"],
+                    emblem = house_data["emblem"],
+                )
+                db.session.add(house)
+                db.session.flush() # to get house id before adding it's seat
+                print(f"House {house.name} added!")
 
+            # Checking for a seat
             seat_data = house_data["seat"]
-            seat = Seat(name = seat_data["name"], location = seat_data["location"], house_id = house.id)
-            db.session.add(seat)
+            seat = Seat.query.filter_by(name = seat_data["name"]).first()
+            if not seat:
+                seat = Seat(name = seat_data["name"], location = seat_data["location"], house_id = house.id)
+                db.session.add(seat)
+                print(f"Castle {seat.name} for house {house.name} added!")
 
         db.session.commit()
         print("Successfully created houses and seats")
