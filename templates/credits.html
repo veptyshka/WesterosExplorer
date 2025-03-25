@@ -3,21 +3,24 @@
 {% block title %}Credits{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-    <h2>Credits and Acknowledgments</h2>
-    <p>This project is a fan made, non-commercial web-application created for educational and entertainment purposes.</p>
+<div class="container mt-4 text-center">
+    <h2 class="mb-3">Credits and Acknowledgments</h2>
+    <p class="lead">This project is a fan made, non-commercial web-application created for educational and entertainment purposes.</p>
 
-    <h3>Information sources</h3>
-    <ul>
+    <h3 class="mt-4">Information sources</h3>
+    <ul class="list-unstyled">
         <li><a href="" target="_blank"></a></li>
         <li><a href="" target="_blank"></a></li>
         <li><a href="" target="_blank"></a></li>
     </ul>
 
-    <h3>Images and media</h3>
-    <ul>
+    <h3 class="mt-4">Images and media</h3>
+    <ul class="list-unstyled">
         <li><a href="" target="_blank"></a></li>
     </ul>
+
+    <p class="mb-3">Thanks to <a href="https://github.com/ognevushka">ognevushka</a> for help in bug-fixing</p>
+    <p>Special thanks to my gf for her love and support</p>
 
     <a href="{{ url_for('main.home') }}" class="btn btn-primary mt-3">Back to Home</a>
 </div>
