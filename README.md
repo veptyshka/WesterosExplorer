@@ -3,9 +3,9 @@
 **Note:** This is my project I made for school. It is *not* professional and may
 
 ## How to use?
-**1)**
-**2)**
-**3)**
+**1.**
+**2.**
+**3.**
 
 ## Libraries used:
 
