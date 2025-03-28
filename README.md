@@ -3,6 +3,9 @@
 **Note:** This is my project I made for school. It is *not* professional and may
 
 ## How to use?
+**1)**
+**2)**
+**3)**
 
 ## Libraries used:
 
@@ -18,6 +21,8 @@
 
 ### Leaflet.js
 [*Leaflet.js*](https://leafletjs.com/reference.html)
+
+### Others
 
 [**Functools**](https://docs.python.org/3/library/functools.html)
 
