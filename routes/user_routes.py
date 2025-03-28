@@ -18,6 +18,9 @@ def allowed_file(filename):
 def user_profile(username):
     user = User.query.filter_by(username = username).first_or_404()
 
+    if not current_user.is_authenticated:
+        return redirect(url_for("auth.login"))
+
     if request.method == "POST":
         # Change avatar
         if "avatar" in request.files:
@@ -50,6 +53,7 @@ def user_profile(username):
         if "house_id" in request.form:
             house_id = request.form["house_id"]
             if house_id:
+                user = current_user
                 user.house_id = int(house_id)
                 house = House.query.get(int(house_id))
                 flash(f"You've chosen the {house.name} house!", "success")
@@ -60,7 +64,9 @@ def user_profile(username):
 
         return redirect(url_for("user.user_profile", username = user.username))
     
-    return render_template("user_profile.html", user = user)
+    houses = House.query.order_by(House.name).all()
+    
+    return render_template("user_profile.html", user = user, houses = houses)
 
 
 @user_bp.route("/users")
