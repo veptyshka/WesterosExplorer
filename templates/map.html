@@ -44,13 +44,15 @@
 
     // Castle markers
     const castles = [
+        {% for house in houses %}
         {
-            name: "Winterfell",
-            house: "Stark",
-            pixelX: 270,
-            pixelY: 200,
-            image: "{{ url_for('static', filename='images/House_Stark.png') }}"
-        }
+            name: "{{ house.seat.name if house.seat else '' }}",
+            house: "{{ house.name }}",
+            pixelX: {{ house.seat.location.split(',')[0].strip() if house.seat and house.seat.location else 0 }},
+            pixelY: {{ house.seat.location.split(',')[1].strip() if house.seat and house.seat.location else 0 }},
+            image: "{{ url_for('static', filename='images/' + house.emblem) }}"
+        }{% if not loop.last %},{% endif %}
+        {% endfor %}
     ];
 
     // Adding markers
@@ -67,7 +69,7 @@
         marker.bindPopup(`
             <div class="castle-popup">
                 <h5>${castle.name}</h5>
-                <p>House: <a href="/house${castle.house}" target="_blank">${castle.house}</a>s</p>
+                <p>House: <a href="/house/${castle.house}" target="_blank">${castle.house}</a>s</p>
                 <img src="${castle.image}" alt="${castle.house}">
             </div>
         `);
