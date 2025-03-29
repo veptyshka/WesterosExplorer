@@ -1,0 +1,59 @@
+{% extends "base.html %"}
+
+{% block title %}Westeros Map{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2 class="text-center mb-4">Westeros Map</h2>
+
+        <div id="map-container"></div>
+
+        <div class="mt-3">
+            <small class="text-muted">Click on a castle icon for more info</small>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Map initialization
+    const map = L.map('map-container').setView([50,30], 5);
+
+    // Adding map image
+    const imageUrl = "{{ url_for('static', filename='images/westeros-map.png') }}";
+    const imageBounds = [[0, 0], [500, 800]];
+
+    L.imageOverlay(imageUrl, imageBounds).addTo(map);
+
+    // Castle markers
+    const castles = [
+        {
+            name: "Winterfell",
+            house: "Stark",
+            coords: [270, 180],
+            image: "{{ url_for('static', filename='images/House_Stark.png') }}"
+        }
+    ];
+
+    // Adding markers
+    castles.forEach(castle => {
+        const marker = L.marker(castle.coords, {
+            icon: L.divIcon({
+                html: '🏰',
+                className: 'castle-icon',
+                iconSize: [30, 30]
+            })
+        }).addTo(map);
+
+        marker.bindPopup(`
+            <div class="castle-popup">
+                <h5>${castle.name}</h5>
+                <p>House: ${castle.house}</p>
+                <img src="${castle.image}" alt="${castle.house}">
+            </div>
+        `);
+    });
+</script>
+{% endblock %}

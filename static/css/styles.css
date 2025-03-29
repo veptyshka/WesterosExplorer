@@ -49,6 +49,22 @@ a:hover {
     background-color: #a93226;
 }
 
+#map-container {
+    height: 70vh;
+    border: 2px solid #3a3a3a;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.castle-icon {
+    background: none;
+    border: none;
+}
+
+.castle-popup img {
+    max-width: 100px;
+}
+
 footer {
     text-align: center;
     padding: 10px;
