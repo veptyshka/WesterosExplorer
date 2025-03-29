@@ -67,7 +67,7 @@
         marker.bindPopup(`
             <div class="castle-popup">
                 <h5>${castle.name}</h5>
-                <p>House: ${castle.house}</p>
+                <p>House: <a href="/house${castle.house}" target="_blank">${castle.house}</a>s</p>
                 <img src="${castle.image}" alt="${castle.house}">
             </div>
         `);

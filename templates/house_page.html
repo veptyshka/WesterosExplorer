@@ -1,32 +1,52 @@
 {% extends "base.html" %}
 
+{% block title %}{{ house.name }} House{% endblock %}
+
 {% block content %}
-<div class="container">
-    <h1>{{ house.name }}</h1>
-    <img src="{{ url_for('static', filename='images/' + house.emblem) }}" alt="{{ house.name }}" class="img-fluid">
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="{{ url_for('static', filename='images/' + house.emblem) }}"
+                 alt="{{ house.name }} Emblem" class="img-fluid">
+        </div>
+        <div class="col-md-8">
+            <h1>House {{ house.name }}</h1>
+            <p class="lead">{{ house.words }}</p>
 
-    <h3>Words</h3>
-    <p><strong>{{ house.words }}</strong></p>
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">About house</h5>
+                    <ul class="list-group-item">
+                        <li class="list-group-item">
+                            <strong>Seat:</strong>
+                            {{ seat.name if seat else "Unknown" }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Lands:</strong> {{ house.lands }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Members:</strong> {{ members|length }}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <h3>Ancestral castle</h3>
-    <p>{{ house.seat.name }}</p>
-
-    <h3>House members</h3>
-    {% if members %}
-        <ul>
-            {% for user in members %}
-                <li>
-                    <img src="{{ url_for('static', filename='avatars/' + user.avatar) }}"
-                         alt="Avatar" width="30" height="30" style="border-radius: 50%;">
-                    <a href="{{ url_for('user.user_profile', username = user.username) }}">
-                        {{ user.username }}
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>There's no members in this house yet</p>
-    {% endif %}
-
+    <div class="row mt-4">
+        <div class="col-12">
+            <h3>Members:</h3>
+            <div class="list-group">
+                {% for member in members %}
+                <a href="{{ url_for('user.user_profile', username=member.username) }}"
+                   class="list-group-item list-group-item-action">
+                   {{ member.username }}
+                </a>
+                {% else %}
+                <div class="list-group-item">There's no members yet</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
