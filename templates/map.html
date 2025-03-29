@@ -19,32 +19,44 @@
 {% block scripts %}
 <script>
     // Map initialization
-    const map = L.map('map-container').setView([50,30], 5);
+    const map = L.map('map-container', {
+        crs: L.CRS.Simple,
+        minZoom: 0,
+        maxZoom: 5
+    });
 
-    // Adding map image
+    const imgWidth = 500;
+    const imgHeight = 800;
+
+    const imageBounds = [
+        [0, 0],
+        [imgHeight, imgWidth]
+    ];
+
+    map.setView([imgHeight/2, imgWidth/2], 1);
+
     const imageUrl = "{{ url_for('static', filename='images/westeros-map.png') }}";
-    const southWest = L.latLng(0, 0);
-    const northEast = L.latLng(100, 100 * (800/500));
-    const imageBounds = new L.LatLngBounds(southWest, northEast);
+    L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
-    L.imageOverlay(imageUrl, imageBounds, {
-        preserveAspectRatio: true,
-        interactive: true
-    }).addTo(map);
+    function pixelToLatLng(x, y) {
+        return [imgHeight - y, x];
+    }
 
     // Castle markers
     const castles = [
         {
             name: "Winterfell",
             house: "Stark",
-            coords: [270, 180],
+            pixelX: 270,
+            pixelY: 200,
             image: "{{ url_for('static', filename='images/House_Stark.png') }}"
         }
     ];
 
     // Adding markers
     castles.forEach(castle => {
-        const marker = L.marker(castle.coords, {
+        const coords = pixelToLatLng(castle.pixelX, castle.pixelY);
+        const marker = L.marker(coords, {
             icon: L.divIcon({
                 html: '🏰',
                 className: 'castle-icon',
