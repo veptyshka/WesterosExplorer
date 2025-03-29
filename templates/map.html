@@ -23,9 +23,14 @@
 
     // Adding map image
     const imageUrl = "{{ url_for('static', filename='images/westeros-map.png') }}";
-    const imageBounds = [[0, 0], [500, 800]];
+    const southWest = L.latLng(0, 0);
+    const northEast = L.latLng(100, 100 * (800/500));
+    const imageBounds = new L.LatLngBounds(southWest, northEast);
 
-    L.imageOverlay(imageUrl, imageBounds).addTo(map);
+    L.imageOverlay(imageUrl, imageBounds, {
+        preserveAspectRatio: true,
+        interactive: true
+    }).addTo(map);
 
     // Castle markers
     const castles = [
