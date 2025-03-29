@@ -18,6 +18,41 @@
 
 {% block scripts %}
 <script>
+    // Loading castles from db
+    async function loadCastles() {
+        try {
+            const response = await fetch('api/castles');
+            if (!response.ok) throw new Error('Network error');
+
+            const castles = await response.json();
+            addCastlesToMap(castles);
+        } catch (error) {
+            console.error('Failed to load castles:', error);
+        }
+    }
+
+    // Castle marker adding function
+    function addCastlesToMap(castles) {
+        castles.forEach(castle => {
+            const invertedY = imgHeight - castle.y;  // Cuz leaflet y coords are counted upside-down
+            const marker = L.marker([invertedY, castle.x], {
+                icon: L.divIcon({
+                    html: '🏰',
+                    className: 'castle-icon',
+                    iconSize: [30, 30]
+                })
+            }).addTo(map);
+
+            marker.bindPopup(`
+            <div class="castle-popup">
+                <h5>${castle.name}</h5>
+                <p>House: <a href="/house/${castle.house}" target="_blank">${castle.house}</a>s</p>
+                <img src="${castle.image}" alt="${castle.house}">
+            </div>
+            `);
+        });
+    }
+
     // Map initialization
     const map = L.map('map-container', {
         crs: L.CRS.Simple,
@@ -38,41 +73,8 @@
     const imageUrl = "{{ url_for('static', filename='images/westeros-map.png') }}";
     L.imageOverlay(imageUrl, imageBounds).addTo(map);
 
-    function pixelToLatLng(x, y) {
-        return [imgHeight - y, x];
-    }
-
-    // Castle markers
-    const castles = [
-        {% for house in houses %}
-        {
-            name: "{{ house.seat.name if house.seat else '' }}",
-            house: "{{ house.name }}",
-            pixelX: {{ house.seat.location.split(',')[0].strip() if house.seat and house.seat.location else 0 }},
-            pixelY: {{ house.seat.location.split(',')[1].strip() if house.seat and house.seat.location else 0 }},
-            image: "{{ url_for('static', filename='images/' + house.emblem) }}"
-        }{% if not loop.last %},{% endif %}
-        {% endfor %}
-    ];
-
-    // Adding markers
-    castles.forEach(castle => {
-        const coords = pixelToLatLng(castle.pixelX, castle.pixelY);
-        const marker = L.marker(coords, {
-            icon: L.divIcon({
-                html: '🏰',
-                className: 'castle-icon',
-                iconSize: [30, 30]
-            })
-        }).addTo(map);
-
-        marker.bindPopup(`
-            <div class="castle-popup">
-                <h5>${castle.name}</h5>
-                <p>House: <a href="/house/${castle.house}" target="_blank">${castle.house}</a>s</p>
-                <img src="${castle.image}" alt="${castle.house}">
-            </div>
-        `);
+    document.addEventListener('DOMContentLoaded', () => {
+        loadCastles();
     });
 </script>
 {% endblock %}
