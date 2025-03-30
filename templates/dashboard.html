@@ -36,11 +36,12 @@
                             <td>
                                 {% if user.role != UserRole.ADMIN %}
                                     <div class="btn-group" role="group">
-                                        <a href="{{ url_for('admin.delete_user', user_id=user.id) }}"
-                                           class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Banish {{ user.username }} from Westeros?')">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </a>
+                                        <form action="{{ url_for('admin.delete_user', user_id=user.id) }}" method="POST" style="display: inline;">
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure want to banish {{ user.username }}?')">
+                                                <i class="fas fa-trash-alt"></i> Banish
+                                            </button>
+                                        </form>
                                         <div class="dropdown">
                                             <button class="btn btn-sm btn-primary dropdown-toggle"
                                                     type="button"
