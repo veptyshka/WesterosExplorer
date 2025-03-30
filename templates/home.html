@@ -11,7 +11,7 @@
                 <i class="fas fa-map-marked-alt"></i> Explore the Map
             </a>
             {% if current_user.role.value == 'admin' %}
-                <a href="{{ url_for('admin.admin_dashboard') }}" class="btn btn-dark btn-lg mx-2">
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-dark btn-lg mx-2">
                     <i class="fas fa-user-shield"></i> Admin Panel
                 </a>
             {% endif %}

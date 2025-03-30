@@ -28,32 +28,33 @@
                             <td>{{ user.id }}</td>
                             <td>{{ user.username }}</td>
                             <td>
-                                <span class="badge bg-{% if user.role.value == 'admin' %}danger {% else %}primary{% endif %}">
+                                <span class="badge bg-{% if user.role == UserRole.ADMIN %}danger{% elif user.role == UserRole.HOUSE_LEADER %}warning{% else %}primary{% endif %}">
                                     {{ user.role.value }}
                                 </span> 
                             </td>
                             <td>{{ user.house.name if user.house else "None" }}</td>
                             <td>
-                                {% if user.role.value != "admin" %}
+                                {% if user.role != UserRole.ADMIN %}
                                     <div class="btn-group" role="group">
                                         <a href="{{ url_for('admin.delete_user', user_id=user.id) }}"
                                            class="btn btn-sm btn-danger"
-                                           onclick="return confirm('Banish this user from Westeros?')">
+                                           onclick="return confirm('Banish {{ user.username }} from Westeros?')">
                                             <i class="fas fa-trash-alt"></i>
                                         </a>
                                         <div class="dropdown">
                                             <button class="btn btn-sm btn-primary dropdown-toggle"
                                                     type="button"
                                                     data-bs-toggle="dropdown">
-                                                Set House leader
+                                                Set House Leader
                                             </button>
                                             <ul class="dropdown-menu">
                                                 {% for house in houses %}
                                                 <li>
-                                                    <a class="dropdown-item"
-                                                       href="{{ url_for('admin.set_leader', user_id=user.id, house_id=house.id) }}">
-                                                       {{ house.name }}
-                                                    </a>
+                                                    <form action="{{ url_for('admin.set_leader', user_id=user.id, house_id=house.id) }}" method="POST">
+                                                        <button type="submit" class="dropdown-item">
+                                                            {{ house.name }}
+                                                        </button>
+                                                    </form>
                                                 </li>
                                                 {% endfor %}
                                             </ul>
