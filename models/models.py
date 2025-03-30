@@ -42,6 +42,9 @@ class User(db.Model, UserMixin):
     def is_admin(self):
         return self.role == UserRole.ADMIN
     
+    def get_id(self):
+        return str(self.id)
+    
 class Seat(db.Model):
     __tablename__ = 'seats'
     id = db.Column(db.Integer, primary_key = True)

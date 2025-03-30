@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template
 from flask_login import login_required
+from models.models import UserRole
 
 main = Blueprint('main', __name__)
 
@@ -7,7 +8,7 @@ main = Blueprint('main', __name__)
 @main.route("/")
 @main.route("/home")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", UserRole=UserRole)
 
 # Map
 @main.route("/map")

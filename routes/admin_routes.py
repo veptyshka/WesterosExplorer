@@ -21,6 +21,9 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+@admin_bp.before_request
+def log_admin_access():
+    print(f"Accessing: {request.path}, User: {session.get('user_id')}")
 
 # Heart tree (admin dashboard)
 @admin_bp.route("/")
