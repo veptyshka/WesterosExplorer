@@ -39,6 +39,9 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return bcrypt.check_password_hash(self.password_hash, password)
     
+    def is_admin(self):
+        return self.role == UserRole.ADMIN
+    
 class Seat(db.Model):
     __tablename__ = 'seats'
     id = db.Column(db.Integer, primary_key = True)
