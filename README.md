@@ -32,6 +32,8 @@ flask run
 ```
 and open `http://127.0.0.1:5000/` (local server) in your browser.
 **5.** Enjoy!
+**6.** Administration
+To login as administrator, check `utils.py` for email and password.
 
 ## Libraries used:
 
