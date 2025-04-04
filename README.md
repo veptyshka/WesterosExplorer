@@ -31,9 +31,10 @@ flask db upgrade
 flask run
 ```
 and open `http://127.0.0.1:5000/` (local server) in your browser.
+
 **5.** Enjoy!
-**6.** Administration
-To login as administrator, check `utils.py` for email and password.
+
+**6.** To login as administrator, check ```utils.py``` for email and password and enter them in the login page.
 
 ## Libraries used:
 
